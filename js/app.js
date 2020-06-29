@@ -43,6 +43,17 @@ const cards = [
         id: "flammen",
         index: 3,
     },
+    {
+        name: "2 - Hohepriesterin",
+        thema: "Unbewusstes",
+        text:
+            "Hier entstehen Vision aus der Stille. Es geht um Verborgenes, alles was Geheimnisse birgt. Deine Geduld ist gefragt. Vertrauen auf die unbewussten Kräfte, also auf die eigene Intuition hören, dabei auf den richtigen Zeitpunkt warten, dann ist das Potenzial vorhanden zur Umsetzung. Sehen, ohne etwas oder jemanden zu beurteilen.",
+        kopf:
+            "Beachte die emotionalen auf und Abs. Passivität hält Dich auf. Oft unberechenbare Situation.",
+        background: "../img/2_hoehepriesterin.jpg",
+        id: "2_hoehepriesterin",
+        index: 4,
+    },
 ];
 
 const cardsCopy = [...cards];
@@ -52,6 +63,7 @@ console.log(cardsCopy);
 // SHUFFLE CARDS ARRAY
 
 let cardsArray = Array.from(document.getElementsByClassName("cards"));
+let cardsArrayBack = Array.from(document.getElementsByClassName("back"));
 console.log(cardsArray[0]);
 
 function shuffleArray(array) {
@@ -67,13 +79,22 @@ shuffleArray(cards);
 
 let dropzoneWrap = document.querySelector("#dropzone");
 let cardwrapper = document.getElementById("cardWrapper");
-console.log(cardwrapper);
+console.log(cardsArray);
+
+// MAKE THE CARDS
 
 cardsArray.map((e, i) => {
-    e.style.backgroundImage = "url(" + cards[i].background + ")";
+    console.log(cards[i].background);
+    // e.style.backgroundImage = "url(" + cards[i].background + ")";
     e.id = cards[i].id;
     e.classList.add(cards[i].index);
     e.dataset.index = cards[i].index;
+});
+
+// INNER BACKGROUND IMAGE
+
+cardsArrayBack.map((e, i) => {
+    e.style.backgroundImage = "url(" + cards[i].background + ")";
 });
 
 function onDragStart(event) {
@@ -95,9 +116,17 @@ function onDragOver(event) {
 
 let txt = document.querySelector(".text");
 let thema = document.querySelector(".thema");
+let flipped = false;
 console.log(thema);
 
-function showCard() {}
+function flipCard(card) {
+    let rndm = Math.floor(Math.random() * 100);
+    console.log(rndm);
+    if (rndm < 5) {
+        card.style.transform = "rotate(180deg)";
+        flipped = true;
+    }
+}
 
 let droppedPast = false;
 let droppedPresent = false;
@@ -110,13 +139,17 @@ function onDrop(event) {
     let draggableElement = document.getElementById(id);
     const dropzone = event.target;
     console.log(draggableElement.dataset.index);
-    draggableElement.classList.add("flip-horizontal-top");
-    // let choice = cards[Math.floor(Math.random() * cards.length)];
-    // dropzone.style.backgroundImage = choice.background;
+
     if (!droppedPast) {
         dropzone.appendChild(draggableElement);
-        thema.innerHTML = cardsCopy[draggableElement.dataset.index].thema;
-        txt.innerHTML = cardsCopy[draggableElement.dataset.index].text;
+        flipCard(draggableElement);
+        console.log(draggableElement.childNodes[1]);
+        setTimeout(() => {
+            draggableElement.childNodes[1].style.transform = "rotateY(180deg)";
+            thema.innerHTML = cardsCopy[draggableElement.dataset.index].name;
+            txt.innerHTML = cardsCopy[draggableElement.dataset.index].text;
+        }, 200);
+
         droppedPast = true;
     }
     event.dataTransfer.clearData();
