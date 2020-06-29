@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./css/main.css" />
+        <script src="./js/app.js" defer></script>
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="flip-card">
+            <div class="inner">
+                <div class="front">
+                    INNNEN
+                </div>
+                <div class="back">
+                    BACK
+                </div>
+            </div>
+        </div>
+
+        <div class="mobileTest" id="box"></div>
+
+        <div class="wrapper">
+            <div class="cardwrapper" id="cardWrapper">
+                <div
+                    id="draggable"
+                    class="cards"
+                    draggable="true"
+                    ondragstart="onDragStart(event)"
+                    ondragover="onDragOver(event)"
+                ></div>
+                <div
+                    id="draggable2"
+                    class="cards"
+                    draggable="true"
+                    ondragstart="onDragStart(event)"
+                    ondragover="onDragOver(event)"
+                ></div>
+                <div
+                    id="draggable3"
+                    class="cards"
+                    draggable="true"
+                    ondragstart="onDragStart(event)"
+                    ondragover="onDragOver(event)"
+                ></div>
+                <div
+                    id="draggable4"
+                    class="cards"
+                    draggable="true"
+                    ondragstart="onDragStart(event)"
+                    ondragover="onDragOver(event)"
+                ></div>
+            </div>
+            <div class="dropWrapper">
+                <div class="zoneWrapper">
+                    <div
+                        class="dropzone"
+                        id="dropzone"
+                        ondragover="onDragOver(event);"
+                        ondrop="onDrop(event);"
+                        ondragover="onDragOver(event)"
+                    ></div>
+                    <h2 class="thema"></h2>
+                    <div class="text"></div>
+                </div>
+                <div class="zoneWrapper">
+                    <div
+                        class="dropzone"
+                        id="dropzone2"
+                        ondragover="onDragOver(event);"
+                        ondrop="onDropPresent(event);"
+                        ondragover="onDragOver(event)"
+                    ></div>
+                    <div class="text"></div>
+                </div>
+                <div class="zoneWrapper">
+                    <div
+                        class="dropzone"
+                        id="dropzone"
+                        ondragover="onDragOver(event);"
+                        ondrop="onDropFuture(event);"
+                        ondragover="onDragOver(event)"
+                    ></div>
+                    <div class="text"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
