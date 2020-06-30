@@ -1,3 +1,7 @@
+html {
+  height: 100%;
+}
+
 body {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -8,7 +12,11 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  height: 100vh;
+  font-family: "Roboto";
+  line-height: 1.4;
+  background-image: url("../img/light2.jpg");
+  min-height: 100%;
+  background-size: cover;
 }
 
 .flip-card {
@@ -39,7 +47,7 @@ body {
 }
 
 .flip-card .front {
-  background-image: url("../img/bg.jpg");
+  background-image: url("../img/bg_fh-100.jpg");
 }
 
 .flip-card .back {
@@ -75,11 +83,36 @@ body {
   margin: 0.5rem;
   -webkit-transition: all ease-in-out 200ms;
   transition: all ease-in-out 200ms;
+  cursor: pointer;
+}
+
+.flippedBox {
+  background: #5f407c;
+  border: none !important;
+  /* margin: 1rem; */
+  padding: 2rem;
+  -webkit-transition: all ease-in-out 200ms;
+  transition: all ease-in-out 200ms;
+}
+
+.flippebBox::after {
+  content: "Auf dem Kopf";
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: red;
+}
+
+.dropzone {
+  -webkit-transition: all ease-in-out 200ms;
+  transition: all ease-in-out 200ms;
 }
 
 .cards:hover {
   -webkit-transform: scale(1.05);
           transform: scale(1.05);
+  -webkit-transform: translateX(-1.75rem) rotate(5deg);
+          transform: translateX(-1.75rem) rotate(5deg);
 }
 
 .inner {
@@ -102,7 +135,7 @@ body {
 }
 
 .front {
-  background-image: url("../img/bg.png");
+  background-image: url("../img/bg_fh.png");
   background-size: cover;
 }
 
@@ -113,18 +146,38 @@ body {
 }
 
 .cards + div {
-  margin-left: -1rem;
+  margin-left: -12rem;
 }
 
 .dropzone {
-  width: 214px;
-  height: 310px;
+  width: 230px;
+  height: 325px;
   border: dashed thick #e5e5e5;
   margin-top: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .dropzone div {
   opacity: 1 !important;
+}
+
+.head {
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.txtInnen {
+  color: #e5e5e5;
+  font-weight: 700;
+  font-size: 1.5rem;
 }
 
 .cardwrapper {
@@ -162,6 +215,13 @@ body {
   width: 33%;
 }
 
+.kopf {
+  border: solid thin grey;
+  padding: 1rem;
+  margin-top: 2rem;
+  background: #ededed;
+}
+
 .flip-horizontal-top {
   -webkit-animation: flip-horizontal-top 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
   animation: flip-horizontal-top 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
@@ -175,6 +235,11 @@ body {
 .heartbeat {
   -webkit-animation: heartbeat 1.5s ease-in-out infinite both;
   animation: heartbeat 1.5s ease-in-out infinite both;
+}
+
+.fade-in {
+  -webkit-animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
 @-webkit-keyframes heartbeat {
@@ -292,6 +357,24 @@ body {
   100% {
     -webkit-transform: rotateX(180deg);
     transform: rotateX(180deg);
+  }
+}
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 /*# sourceMappingURL=main.css.map */
