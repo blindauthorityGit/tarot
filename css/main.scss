@@ -2,14 +2,21 @@ html {
     height: 100%;
 }
 
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     display: flex;
     justify-content: center;
-    align-items: center;
+    // align-items: center;
     // height: 100vh;
     font-family: "Roboto";
     line-height: 1.4;
-    background-image: url("../img/light2.jpg");
+    // background-image: url("../img/light2.jpg");
     min-height: 100%;
     background-size: cover;
 }
@@ -54,6 +61,10 @@ body {
     background-color: red;
 }
 
+.words {
+    opacity: 0;
+}
+
 #draggable {
     background-image: url("../img/0_narr.png");
 }
@@ -67,8 +78,9 @@ body {
     height: 300px;
     background-size: cover;
     margin: 0.5rem;
-    transition: all ease-in-out 200ms;
+    transition: transform ease-in-out 100ms;
     cursor: pointer;
+    z-index: 2;
     // box-shadow: #a795b3 0.25rem 0.25rem 0.75rem;
 }
 
@@ -90,6 +102,11 @@ body {
 
 .dropzone {
     transition: all ease-in-out 200ms;
+    // z-index: -1;
+}
+
+#dropzone {
+    position: relative;
 }
 
 .cards:hover {
@@ -140,6 +157,18 @@ body {
     }
 }
 
+.txtAussen {
+    display: flex;
+    justify-content: calc(center - 2rem);
+    width: 236px;
+    text-align: center;
+    justify-content: center;
+    color: #e5e5e5;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+}
+
 .head {
     margin-bottom: 1rem;
     font-weight: 600;
@@ -152,14 +181,21 @@ body {
 }
 
 .cardwrapper {
-    display: flex;
     width: 100%;
+    // background: #856765;
+    padding: 3rem 2rem;
+    display: flex;
+    // background-image: url("../img/table.jpg");
+    background-size: cover;
+    justify-content: center;
+    border-bottom: solid thin grey;
 }
 
 .wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 .dropWrapper {
@@ -171,6 +207,18 @@ body {
 .zoneWrapper {
     margin: 1rem;
     width: 33%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    margin-bottom: 1.75rem;
+}
+
+.active {
+    transform: scale(1.05);
+    background: lightgray;
 }
 
 .kopf {
@@ -178,6 +226,12 @@ body {
     padding: 1rem;
     margin-top: 2rem;
     background: #ededed;
+}
+
+.text,
+.text2,
+.text3 {
+    font-size: 0.85rem;
 }
 
 .flip-horizontal-top {
@@ -201,6 +255,10 @@ body {
 .fade-in {
     -webkit-animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
     animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+.mischen {
+    animation: mischen 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
 @-webkit-keyframes heartbeat {
@@ -330,5 +388,17 @@ body {
     }
     100% {
         opacity: 1;
+    }
+}
+
+@keyframes mischen {
+    0% {
+        margin-left: -12.5rem;
+    }
+    50% {
+        margin-left: -21.5rem;
+    }
+    100% {
+        margin-left: -12.5rem;
     }
 }

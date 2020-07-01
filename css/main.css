@@ -2,6 +2,14 @@ html {
   height: 100%;
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 body {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -9,12 +17,8 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   font-family: "Roboto";
   line-height: 1.4;
-  background-image: url("../img/light2.jpg");
   min-height: 100%;
   background-size: cover;
 }
@@ -68,6 +72,10 @@ body {
   background-color: red;
 }
 
+.words {
+  opacity: 0;
+}
+
 #draggable {
   background-image: url("../img/0_narr.png");
 }
@@ -81,9 +89,12 @@ body {
   height: 300px;
   background-size: cover;
   margin: 0.5rem;
-  -webkit-transition: all ease-in-out 200ms;
-  transition: all ease-in-out 200ms;
+  -webkit-transition: -webkit-transform ease-in-out 100ms;
+  transition: -webkit-transform ease-in-out 100ms;
+  transition: transform ease-in-out 100ms;
+  transition: transform ease-in-out 100ms, -webkit-transform ease-in-out 100ms;
   cursor: pointer;
+  z-index: 2;
 }
 
 .flippedBox {
@@ -106,6 +117,10 @@ body {
 .dropzone {
   -webkit-transition: all ease-in-out 200ms;
   transition: all ease-in-out 200ms;
+}
+
+#dropzone {
+  position: relative;
 }
 
 .cards:hover {
@@ -169,6 +184,24 @@ body {
   opacity: 1 !important;
 }
 
+.txtAussen {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: calc(center - 2rem);
+      -ms-flex-pack: calc(center - 2rem);
+          justify-content: calc(center - 2rem);
+  width: 236px;
+  text-align: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: #e5e5e5;
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
 .head {
   margin-bottom: 1rem;
   font-weight: 600;
@@ -181,10 +214,16 @@ body {
 }
 
 .cardwrapper {
+  width: 100%;
+  padding: 3rem 2rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 100%;
+  background-size: cover;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-bottom: solid thin grey;
 }
 
 .wrapper {
@@ -198,6 +237,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: 100%;
 }
 
 .dropWrapper {
@@ -213,6 +253,26 @@ body {
 .zoneWrapper {
   margin: 1rem;
   width: 33%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+h2 {
+  margin-bottom: 1.75rem;
+}
+
+.active {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+  background: lightgray;
 }
 
 .kopf {
@@ -220,6 +280,12 @@ body {
   padding: 1rem;
   margin-top: 2rem;
   background: #ededed;
+}
+
+.text,
+.text2,
+.text3 {
+  font-size: 0.85rem;
 }
 
 .flip-horizontal-top {
@@ -240,6 +306,11 @@ body {
 .fade-in {
   -webkit-animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
   animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+.mischen {
+  -webkit-animation: mischen 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+          animation: mischen 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
 @-webkit-keyframes heartbeat {
@@ -375,6 +446,30 @@ body {
   }
   100% {
     opacity: 1;
+  }
+}
+
+@-webkit-keyframes mischen {
+  0% {
+    margin-left: -12.5rem;
+  }
+  50% {
+    margin-left: -21.5rem;
+  }
+  100% {
+    margin-left: -12.5rem;
+  }
+}
+
+@keyframes mischen {
+  0% {
+    margin-left: -12.5rem;
+  }
+  50% {
+    margin-left: -21.5rem;
+  }
+  100% {
+    margin-left: -12.5rem;
   }
 }
 /*# sourceMappingURL=main.css.map */

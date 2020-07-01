@@ -886,12 +886,18 @@ console.log(cardsArray);
 // MAKE THE CARDS
 
 cardsArray.map((e, i) => {
-    console.log(cards[i].background);
     // e.style.backgroundImage = "url(" + cards[i].background + ")";
     e.id = cards[i].id;
     e.classList.add(cards[i].index);
     e.dataset.index = cards[i].index;
 });
+
+// document.body.addEventListener("click", function () {
+//     cardsArray.map((e, i) => {
+//         // e.style.backgroundImage = "url(" + cards[i].background + ")";
+//         e.classList.add("mischen");
+//     });
+// });
 
 // INNER BACKGROUND IMAGE
 
@@ -901,6 +907,9 @@ cardsArrayBack.map((e, i) => {
 
 function onDragStart(event) {
     event.dataTransfer.setData("text/plain", event.target.id);
+    // let img = new Image();
+    // img.src = "./img/bg_fh.png";
+    // event.dataTransfer.setDragImage(img, 100, 100);
     // var dragIcon = document.createElement("img");
     // dragIcon.src =
     //     "https://www.googlewatchblog.de/wp-content/uploads/rip-googl.jpg";
@@ -913,12 +922,18 @@ function onDragStart(event) {
 
 function onDragOver(event) {
     event.preventDefault();
-    console.log("drüber");
+    if (event.target.classList[0] == "dropzone") {
+        event.target.style.background = "red";
+    } else {
+        document.getElementById("dropzone3").style.background = "white";
+    }
+    console.log(event.target);
 }
 
 let br = document.createElement("br");
 
 let head = Array.from(document.getElementsByClassName("head"));
+let words = Array.from(document.getElementsByClassName("words"));
 let txt = document.querySelector(".text");
 let txt2 = document.querySelector(".text2");
 let txt3 = document.querySelector(".text3");
@@ -948,6 +963,7 @@ let droppedFuture = false;
 // PAST DROP
 
 function onDrop(event) {
+    event.preventDefault();
     let id = event.dataTransfer.getData("text");
     let draggableElement = document.getElementById(id);
     const dropzone = event.target;
@@ -956,16 +972,20 @@ function onDrop(event) {
     if (!droppedPast) {
         document.getElementById("vergangenheit").style.display = "none";
         dropzone.appendChild(draggableElement);
+
         flipCard(draggableElement);
-        console.log(draggableElement.childNodes[1]);
+
         setTimeout(() => {
             draggableElement.childNodes[1].style.transform = "rotateY(180deg)";
             thema.innerHTML = cardsCopy[draggableElement.dataset.index].name;
 
+            setTimeout(() => {
+                words[0].classList.add("fade-in");
+            }, 400);
+
             head[0].innerHTML = cardsCopy[draggableElement.dataset.index].text
                 .split(".")
                 .shift();
-            // CardsCopy.map((e) => e.text.split(".")[0]));
 
             txt.innerHTML = cardsCopy[draggableElement.dataset.index].text
                 .split(".")
@@ -988,6 +1008,7 @@ function onDrop(event) {
 // PRESENT DROP
 
 function onDropPresent(event) {
+    event.preventDefault();
     let id = event.dataTransfer.getData("text");
     let draggableElement = document.getElementById(id);
     const dropzone = event.target;
@@ -1001,6 +1022,10 @@ function onDropPresent(event) {
         setTimeout(() => {
             draggableElement.childNodes[1].style.transform = "rotateY(180deg)";
             thema2.innerHTML = cardsCopy[draggableElement.dataset.index].name;
+
+            setTimeout(() => {
+                words[1].classList.add("fade-in");
+            }, 400);
 
             head[1].innerHTML = cardsCopy[draggableElement.dataset.index].text
                 .split(".")
@@ -1026,6 +1051,7 @@ function onDropPresent(event) {
 // FUTURE DROP
 
 function onDropFuture(event) {
+    event.preventDefault();
     let id = event.dataTransfer.getData("text");
     let draggableElement = document.getElementById(id);
     const dropzone = event.target;
@@ -1039,6 +1065,10 @@ function onDropFuture(event) {
         setTimeout(() => {
             draggableElement.childNodes[1].style.transform = "rotateY(180deg)";
             thema3.innerHTML = cardsCopy[draggableElement.dataset.index].name;
+
+            setTimeout(() => {
+                words[2].classList.add("fade-in");
+            }, 400);
 
             head[2].innerHTML = cardsCopy[draggableElement.dataset.index].text
                 .split(".")
@@ -1073,14 +1103,83 @@ let box = document.getElementById("box");
 //     box.style.top = touchLocation.pageY + "px";
 // });
 
-console.log(mobileBox);
+let theCards = Array.from(document.getElementsByClassName("cards"));
+let dropzoneOne = document.getElementById("dropzone");
+let bodyRect = document.body.getBoundingClientRect();
+let xOne = dropzoneOne.getBoundingClientRect().x;
+let yOne = dropzoneOne.getBoundingClientRect().y;
+let lastMove = null;
 
-mobileBox.forEach((e) => {
-    e.addEventListener("touchmove", function (item) {
-        let touchLocation = item.targetTouches[0];
-        e.style.left = touchLocation.pageX + "px";
-        e.style.top = touchLocation.pageY + "px";
+// function touchmove(event){
+//     event.preventDefault();
+//     lastMove = event;
+//     let touchLocation = event.targetTouches[0];
+//     e.style.left = touchLocation.pageX + 102 + "px";
+//     e.style.top = touchLocation.pageY - 150 + "px";
+// }
 
-        console.log("möp");
+if (
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+    )
+) {
+    document.getElementById("cardWrapper").style.height = "20rem";
+
+    theCards.forEach((e) => {
+        e.style.position = "absolute";
+        let theCard = e;
+        e.addEventListener("touchmove", function (event) {
+            event.preventDefault();
+            lastMove = event;
+            let touchLocation = event.targetTouches[0];
+            e.style.left = touchLocation.pageX + 102 + "px";
+            e.style.top = touchLocation.pageY - 150 + "px";
+        });
+        e.addEventListener("touchend", function (event) {
+            let evX = Math.floor(event.changedTouches[0].pageX);
+            let evY = Math.floor(event.changedTouches[0].pageY);
+            let dX = dropzoneOne.getBoundingClientRect().x;
+            let dY = dropzoneOne.getBoundingClientRect().y;
+            // console.log(dropzoneOne.getBoundingClientRect());
+            // console.log(evX, evY, dX);
+            if (evX > dX && evX < dX + 240 && evY > dY && evY < dY + 335) {
+                if (!droppedPast) {
+                    dropzoneOne.style.background = "red";
+                    e.style.left = dX + 210 + "px";
+                    e.style.top = dY + 10 + "px";
+                    console.log(e.style.left, dX);
+                    // e.removeEventListener("touchmove" );
+                    setTimeout(() => {
+                        e.childNodes[1].style.transform = "rotateY(180deg)";
+                        thema.innerHTML = cardsCopy[e.dataset.index].name;
+
+                        setTimeout(() => {
+                            words[0].classList.add("fade-in");
+                        }, 400);
+
+                        head[0].innerHTML = cardsCopy[e.dataset.index].text
+                            .split(".")
+                            .shift();
+
+                        txt.innerHTML = cardsCopy[e.dataset.index].text
+                            .split(".")
+                            .slice(1);
+                        if (flipped) {
+                            dropzone.classList.add("flippedBox");
+
+                            kopfPast.classList.add("kopf");
+                            kopfPast.innerHTML =
+                                cardsCopy[e.dataset.index].kopf;
+                        }
+                    }, 200);
+                }
+            }
+        });
     });
-});
+
+    console.log(bodyRect, dropzoneOne.getBoundingClientRect());
+
+    theCards.map((e, i) => {
+        e.style.right = i * 12 + "px";
+    });
+}
