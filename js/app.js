@@ -885,24 +885,25 @@ console.log(cardsArray);
 
 // MAKE THE CARDS
 
-cardsArray.map((e, i) => {
-    // e.style.backgroundImage = "url(" + cards[i].background + ")";
-    e.id = cards[i].id;
-    e.classList.add(cards[i].index);
-    e.dataset.index = cards[i].index;
-});
+function createCards() {
+    cardsArray.map((e, i) => {
+        // e.style.backgroundImage = "url(" + cards[i].background + ")";
+        e.id = cards[i].id;
+        e.classList.add(cards[i].index);
+        e.dataset.index = cards[i].index;
+    });
+    cardsArrayBack.map((e, i) => {
+        e.style.backgroundImage = "url(" + cards[i].background + ")";
+    });
+}
 
-// document.body.addEventListener("click", function () {
-//     cardsArray.map((e, i) => {
-//         // e.style.backgroundImage = "url(" + cards[i].background + ")";
-//         e.classList.add("mischen");
-//     });
-// });
+createCards();
 
-// INNER BACKGROUND IMAGE
-
-cardsArrayBack.map((e, i) => {
-    e.style.backgroundImage = "url(" + cards[i].background + ")";
+document.getElementById("shuffleBtn").addEventListener("click", function () {
+    console.log(cardsArray);
+    this.className = "";
+    shuffleArray(cards);
+    createCards();
 });
 
 function onDragStart(event) {
@@ -1105,10 +1106,14 @@ let box = document.getElementById("box");
 
 let theCards = Array.from(document.getElementsByClassName("cards"));
 let dropzoneOne = document.getElementById("dropzone");
+let dropzoneTwo = document.getElementById("dropzone2");
+let dropzoneThree = document.getElementById("dropzone3");
 let bodyRect = document.body.getBoundingClientRect();
 let xOne = dropzoneOne.getBoundingClientRect().x;
 let yOne = dropzoneOne.getBoundingClientRect().y;
 let lastMove = null;
+let cardX;
+let cardY;
 
 // function touchmove(event){
 //     event.preventDefault();
@@ -1123,11 +1128,16 @@ if (
         navigator.userAgent
     )
 ) {
-    document.getElementById("cardWrapper").style.height = "20rem";
+    document.getElementById("cardWrapper").style.height = "15rem";
 
     theCards.forEach((e) => {
         e.style.position = "absolute";
         let theCard = e;
+        e.addEventListener("touchstart", function () {
+            cardX = e.getBoundingClientRect().x + 197;
+            cardY = e.getBoundingClientRect().y - 8;
+            console.log(cardX, cardY);
+        });
         e.addEventListener("touchmove", function (event) {
             event.preventDefault();
             lastMove = event;
@@ -1140,13 +1150,23 @@ if (
             let evY = Math.floor(event.changedTouches[0].pageY);
             let dX = dropzoneOne.getBoundingClientRect().x;
             let dY = dropzoneOne.getBoundingClientRect().y;
+            let dXTwo = dropzoneTwo.getBoundingClientRect().x;
+            let dYTwo = dropzoneTwo.getBoundingClientRect().y;
+            let dXThree = dropzoneThree.getBoundingClientRect().x;
+            let dYThree = dropzoneThree.getBoundingClientRect().y;
             // console.log(dropzoneOne.getBoundingClientRect());
             // console.log(evX, evY, dX);
-            if (evX > dX && evX < dX + 240 && evY > dY && evY < dY + 335) {
+            if (
+                evX > dX &&
+                evX < dX + 240 &&
+                evY > dY &&
+                evY < dY + 335 &&
+                !droppedPast
+            ) {
                 if (!droppedPast) {
                     dropzoneOne.style.background = "red";
-                    e.style.left = dX + 210 + "px";
-                    e.style.top = dY + 10 + "px";
+                    e.style.left = dX + 192 + "px";
+                    e.style.top = dY + 20 + "px";
                     console.log(e.style.left, dX);
                     // e.removeEventListener("touchmove" );
                     setTimeout(() => {
@@ -1172,7 +1192,85 @@ if (
                                 cardsCopy[e.dataset.index].kopf;
                         }
                     }, 200);
+                    droppedPast = true;
                 }
+            } else if (
+                evX > dXTwo &&
+                evX < dXTwo + 240 &&
+                evY > dYTwo &&
+                evY < dYTwo + 335 &&
+                !droppedPresent
+            ) {
+                if (!droppedPresent) {
+                    dropzoneTwo.style.background = "red";
+                    e.style.left = dXTwo + 192 + "px";
+                    e.style.top = dYTwo + 20 + "px";
+
+                    setTimeout(() => {
+                        e.childNodes[1].style.transform = "rotateY(180deg)";
+                        thema2.innerHTML = cardsCopy[e.dataset.index].name;
+
+                        setTimeout(() => {
+                            words[1].classList.add("fade-in");
+                        }, 400);
+
+                        head[1].innerHTML = cardsCopy[e.dataset.index].text
+                            .split(".")
+                            .shift();
+
+                        txt2.innerHTML = cardsCopy[e.dataset.index].text
+                            .split(".")
+                            .slice(1);
+                        if (flipped) {
+                            dropzone.classList.add("flippedBox");
+
+                            kopfPresent.classList.add("kopf");
+                            kopfPresent.innerHTML =
+                                cardsCopy[e.dataset.index].kopf;
+                        }
+                    }, 200);
+                    droppedPresent = true;
+                }
+            } else if (
+                evX > dXThree &&
+                evX < dXThree + 240 &&
+                evY > dYThree &&
+                evY < dYThree + 335 &&
+                !droppedFuture
+            ) {
+                if (!droppedFuture) {
+                    dropzoneTwo.style.background = "red";
+                    e.style.left = dXThree + 192 + "px";
+                    e.style.top = dYThree + 20 + "px";
+
+                    setTimeout(() => {
+                        e.childNodes[1].style.transform = "rotateY(180deg)";
+                        thema3.innerHTML = cardsCopy[e.dataset.index].name;
+
+                        setTimeout(() => {
+                            words[2].classList.add("fade-in");
+                        }, 400);
+
+                        head[2].innerHTML = cardsCopy[e.dataset.index].text
+                            .split(".")
+                            .shift();
+
+                        txt3.innerHTML = cardsCopy[e.dataset.index].text
+                            .split(".")
+                            .slice(1);
+                        if (flipped) {
+                            dropzone.classList.add("flippedBox");
+
+                            kopfFuture.classList.add("kopf");
+                            kopfFuture.innerHTML =
+                                cardsCopy[e.dataset.index].kopf;
+                        }
+                    }, 200);
+                    droppedFuture = true;
+                }
+            } else {
+                e.style.left = cardX + "px";
+                e.style.top = cardY + "px";
             }
         });
     });
@@ -1180,6 +1278,6 @@ if (
     console.log(bodyRect, dropzoneOne.getBoundingClientRect());
 
     theCards.map((e, i) => {
-        e.style.right = i * 12 + "px";
+        e.style.right = i * 10 + "px";
     });
 }

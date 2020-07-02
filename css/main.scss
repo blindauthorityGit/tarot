@@ -74,11 +74,12 @@ body {
 }
 
 .cards {
-    width: 204px;
-    height: 300px;
+    width: 150px;
+    height: 220px;
     background-size: cover;
     margin: 0.5rem;
     transition: transform ease-in-out 100ms;
+    // transition: left ease-in-out 100ms;
     cursor: pointer;
     z-index: 2;
     // box-shadow: #a795b3 0.25rem 0.25rem 0.75rem;
@@ -141,12 +142,12 @@ body {
 }
 
 .cards + div {
-    margin-left: -12rem;
+    margin-left: -10.5rem;
 }
 
 .dropzone {
-    width: 230px;
-    height: 325px;
+    width: 191px;
+    height: 280px;
     border: dashed thick #e5e5e5;
     margin-top: 2rem;
     display: flex;
@@ -200,7 +201,8 @@ body {
 
 .dropWrapper {
     display: flex;
-    width: 960px;
+    width: 100%;
+    max-width: 960px;
     justify-content: space-between;
 }
 
