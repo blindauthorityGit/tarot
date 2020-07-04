@@ -860,13 +860,11 @@ const cards = [
 
 const cardsCopy = [...cards];
 
-console.log(cardsCopy.map((e) => e.text.split(".")[0]));
-
 // SHUFFLE CARDS ARRAY
 
 let cardsArray = Array.from(document.getElementsByClassName("cards"));
 let cardsArrayBack = Array.from(document.getElementsByClassName("back"));
-console.log(cardsArray[0]);
+let shuffleBtn = document.getElementById("shuffleBtn");
 
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -877,16 +875,19 @@ function shuffleArray(array) {
     }
 }
 
+// cards.map((e) => e.text.split(".").map((e) => (e = e + "mööp möööp" + "<br>")));
+
 shuffleArray(cards);
 
 let dropzoneWrap = document.querySelector("#dropzone");
 let cardwrapper = document.getElementById("cardWrapper");
-console.log(cardsArray);
+let zoneWrapper = Array.from(document.getElementsByClassName("zoneWrapper"));
 
 // MAKE THE CARDS
 
 function createCards() {
     cardsArray.map((e, i) => {
+        e.classList.add("shadows");
         // e.style.backgroundImage = "url(" + cards[i].background + ")";
         e.id = cards[i].id;
         e.classList.add(cards[i].index);
@@ -899,11 +900,26 @@ function createCards() {
 
 createCards();
 
-document.getElementById("shuffleBtn").addEventListener("click", function () {
-    console.log(cardsArray);
-    this.className = "";
-    shuffleArray(cards);
-    createCards();
+shuffleBtn.addEventListener("click", function () {
+    if (droppedPast || droppedPresent || droppedFuture) {
+        document.getElementById("shuffleBtn").classList.add("shake-horizontal");
+    } else {
+        console.log(cardsArray);
+        cardsArray.map((e, i) => {
+            e.style.transition = "margin-left ease-in-out 100ms";
+            e.style.marginLeft = 0;
+        });
+        setTimeout(() => {
+            cardsArray.map((e, i) => {
+                if (i != 0) {
+                    e.style.marginLeft = "-10.5rem";
+                }
+            });
+        }, 200);
+        this.className = "";
+        shuffleArray(cards);
+        createCards();
+    }
 });
 
 function onDragStart(event) {
@@ -924,11 +940,10 @@ function onDragStart(event) {
 function onDragOver(event) {
     event.preventDefault();
     if (event.target.classList[0] == "dropzone") {
-        event.target.style.background = "red";
+        // event.target.style.background = "red";
     } else {
         document.getElementById("dropzone3").style.background = "white";
     }
-    console.log(event.target);
 }
 
 let br = document.createElement("br");
@@ -944,9 +959,24 @@ let thema3 = document.querySelector(".thema3");
 let kopfPast = document.getElementById("kopfPast");
 let kopfPresent = document.getElementById("kopfPresent");
 let kopfFuture = document.getElementById("kopfFuture");
+let txtAussen = Array.from(document.getElementsByClassName("txtAussen"));
+
+function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+
+    while (element) {
+        xPosition +=
+            element.offsetLeft - element.scrollLeft + element.clientLeft;
+        yPosition += element.offsetTop - element.scrollTop + element.clientTop;
+        element = element.offsetParent;
+    }
+    console.log({ x: xPosition, y: yPosition });
+    return { x: xPosition, y: yPosition };
+}
 
 let flipped = false;
-console.log(thema);
+console.log(txtAussen[0]);
 
 function flipCard(card) {
     let rndm = Math.floor(Math.random() * 100);
@@ -960,6 +990,7 @@ function flipCard(card) {
 let droppedPast = false;
 let droppedPresent = false;
 let droppedFuture = false;
+let btnGrey = false;
 
 // PAST DROP
 
@@ -971,8 +1002,12 @@ function onDrop(event) {
     console.log(draggableElement.dataset.index);
 
     if (!droppedPast) {
+        if (btnGrey) {
+            shuffleBtn.style.opacity = 0.5;
+        }
         document.getElementById("vergangenheit").style.display = "none";
         dropzone.appendChild(draggableElement);
+        draggableElement.classList.remove("shadows");
 
         flipCard(draggableElement);
 
@@ -991,16 +1026,25 @@ function onDrop(event) {
             txt.innerHTML = cardsCopy[draggableElement.dataset.index].text
                 .split(".")
                 .slice(1);
+
+            txtAussen[0].style.color = "#ae75c9";
+
             if (flipped) {
                 dropzone.classList.add("flippedBox");
 
                 kopfPast.classList.add("kopf");
                 kopfPast.innerHTML =
                     cardsCopy[draggableElement.dataset.index].kopf;
+                flipped = false;
             }
         }, 200);
-
+        getPosition(draggableElement);
         droppedPast = true;
+        btnGrey = true;
+        localStorage.setItem(
+            "cardPast",
+            cardsCopy[draggableElement.dataset.index].background
+        );
     }
     event.dataTransfer.clearData();
     dropzone.style.opacity = 1;
@@ -1016,8 +1060,13 @@ function onDropPresent(event) {
     console.log(thema);
 
     if (!droppedPresent) {
+        if (btnGrey) {
+            shuffleBtn.style.opacity = 0.5;
+        }
         document.getElementById("gegenwart").style.display = "none";
         dropzone.appendChild(draggableElement);
+        draggableElement.classList.remove("shadows");
+
         flipCard(draggableElement);
         console.log(draggableElement.childNodes[1]);
         setTimeout(() => {
@@ -1035,15 +1084,20 @@ function onDropPresent(event) {
             txt2.innerHTML = cardsCopy[draggableElement.dataset.index].text
                 .split(".")
                 .slice(1);
+
+            txtAussen[1].style.color = "#ae75c9";
+
             if (flipped) {
                 dropzone.classList.add("flippedBox");
                 kopfPresent.classList.add("kopf");
                 kopfPresent.innerHTML =
                     cardsCopy[draggableElement.dataset.index].kopf;
+                flipped = false;
             }
         }, 200);
 
         droppedPresent = true;
+        btnGrey = true;
     }
     event.dataTransfer.clearData();
     dropzone.style.opacity = 1;
@@ -1059,8 +1113,13 @@ function onDropFuture(event) {
     console.log(thema);
 
     if (!droppedFuture) {
+        if (btnGrey) {
+            shuffleBtn.style.opacity = 0.5;
+        }
         document.getElementById("zukunft").style.display = "none";
         dropzone.appendChild(draggableElement);
+        draggableElement.classList.remove("shadows");
+
         flipCard(draggableElement);
         console.log(draggableElement.childNodes[1]);
         setTimeout(() => {
@@ -1078,16 +1137,21 @@ function onDropFuture(event) {
             txt3.innerHTML = cardsCopy[draggableElement.dataset.index].text
                 .split(".")
                 .slice(1);
+
+            txtAussen[2].style.color = "#ae75c9";
+
             if (flipped) {
                 dropzone.classList.add("flippedBox");
 
                 kopfFuture.classList.add("kopf");
                 kopfFuture.innerHTML =
                     cardsCopy[draggableElement.dataset.index].kopf;
+                flipped = false;
             }
         }, 200);
 
         droppedFuture = true;
+        btnGrey = true;
     }
     event.dataTransfer.clearData();
     dropzone.style.opacity = 1;
@@ -1123,6 +1187,8 @@ let cardY;
 //     e.style.top = touchLocation.pageY - 150 + "px";
 // }
 
+console.log(localStorage);
+console.log(localStorage.card);
 if (
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -1134,7 +1200,7 @@ if (
         e.style.position = "absolute";
         let theCard = e;
         e.addEventListener("touchstart", function () {
-            cardX = e.getBoundingClientRect().x + 197;
+            cardX = e.getBoundingClientRect().x + 172;
             cardY = e.getBoundingClientRect().y - 8;
             console.log(cardX, cardY);
         });
@@ -1164,10 +1230,14 @@ if (
                 !droppedPast
             ) {
                 if (!droppedPast) {
-                    dropzoneOne.style.background = "red";
+                    if (btnGrey) {
+                        shuffleBtn.style.opacity = 0.5;
+                    }
+                    // dropzoneOne.style.background = "red";
                     e.style.left = dX + 192 + "px";
                     e.style.top = dY + 20 + "px";
-                    console.log(e.style.left, dX);
+                    e.classList.remove("shadows");
+                    flipCard(e);
                     // e.removeEventListener("touchmove" );
                     setTimeout(() => {
                         e.childNodes[1].style.transform = "rotateY(180deg)";
@@ -1175,6 +1245,9 @@ if (
 
                         setTimeout(() => {
                             words[0].classList.add("fade-in");
+                            document
+                                .querySelectorAll(".third")[0]
+                                .classList.add("activeHeight");
                         }, 400);
 
                         head[0].innerHTML = cardsCopy[e.dataset.index].text
@@ -1184,15 +1257,20 @@ if (
                         txt.innerHTML = cardsCopy[e.dataset.index].text
                             .split(".")
                             .slice(1);
+
+                        txtAussen[0].style.color = "rgb(64, 13, 94)";
+
                         if (flipped) {
                             dropzone.classList.add("flippedBox");
 
                             kopfPast.classList.add("kopf");
                             kopfPast.innerHTML =
                                 cardsCopy[e.dataset.index].kopf;
+                            flipped = false;
                         }
                     }, 200);
                     droppedPast = true;
+                    btnGrey = true;
                 }
             } else if (
                 evX > dXTwo &&
@@ -1202,9 +1280,15 @@ if (
                 !droppedPresent
             ) {
                 if (!droppedPresent) {
-                    dropzoneTwo.style.background = "red";
+                    if (btnGrey) {
+                        shuffleBtn.style.opacity = 0.5;
+                    }
+                    // dropzoneTwo.style.background = "red";
                     e.style.left = dXTwo + 192 + "px";
                     e.style.top = dYTwo + 20 + "px";
+                    e.classList.remove("shadows");
+
+                    flipCard(e);
 
                     setTimeout(() => {
                         e.childNodes[1].style.transform = "rotateY(180deg)";
@@ -1212,6 +1296,9 @@ if (
 
                         setTimeout(() => {
                             words[1].classList.add("fade-in");
+                            document
+                                .querySelectorAll(".third")[1]
+                                .classList.add("activeHeight2");
                         }, 400);
 
                         head[1].innerHTML = cardsCopy[e.dataset.index].text
@@ -1221,15 +1308,22 @@ if (
                         txt2.innerHTML = cardsCopy[e.dataset.index].text
                             .split(".")
                             .slice(1);
+
+                        txtAussen[1].style.color = "rgb(64, 13, 94)";
+
+                        zoneWrapper[1].classList.add("middle");
+
                         if (flipped) {
-                            dropzone.classList.add("flippedBox");
+                            dropzoneTwo.classList.add("flippedBox");
 
                             kopfPresent.classList.add("kopf");
                             kopfPresent.innerHTML =
                                 cardsCopy[e.dataset.index].kopf;
+                            flipped = false;
                         }
                     }, 200);
                     droppedPresent = true;
+                    btnGrey = true;
                 }
             } else if (
                 evX > dXThree &&
@@ -1239,16 +1333,24 @@ if (
                 !droppedFuture
             ) {
                 if (!droppedFuture) {
-                    dropzoneTwo.style.background = "red";
+                    if (btnGrey) {
+                        shuffleBtn.style.opacity = 0.5;
+                    }
+                    // dropzoneTwo.style.background = "red";
                     e.style.left = dXThree + 192 + "px";
                     e.style.top = dYThree + 20 + "px";
+                    e.classList.remove("shadows");
 
+                    flipCard(e);
                     setTimeout(() => {
                         e.childNodes[1].style.transform = "rotateY(180deg)";
                         thema3.innerHTML = cardsCopy[e.dataset.index].name;
 
                         setTimeout(() => {
                             words[2].classList.add("fade-in");
+                            document
+                                .querySelectorAll(".third")[2]
+                                .classList.add("activeHeight3");
                         }, 400);
 
                         head[2].innerHTML = cardsCopy[e.dataset.index].text
@@ -1258,15 +1360,19 @@ if (
                         txt3.innerHTML = cardsCopy[e.dataset.index].text
                             .split(".")
                             .slice(1);
+                        txtAussen[2].style.color = "rgb(64, 13, 94)";
+
                         if (flipped) {
-                            dropzone.classList.add("flippedBox");
+                            dropzoneThree.classList.add("flippedBox");
 
                             kopfFuture.classList.add("kopf");
                             kopfFuture.innerHTML =
                                 cardsCopy[e.dataset.index].kopf;
+                            flipped = false;
                         }
                     }, 200);
                     droppedFuture = true;
+                    btnGrey = true;
                 }
             } else {
                 e.style.left = cardX + "px";
@@ -1277,7 +1383,31 @@ if (
 
     console.log(bodyRect, dropzoneOne.getBoundingClientRect());
 
+    // ABSTAND KARTEN ZUEINANDER
+
     theCards.map((e, i) => {
-        e.style.right = i * 10 + "px";
+        e.style.right = 5 + i * 0.97 + "%";
+    });
+
+    shuffleBtn.addEventListener("click", function () {
+        if (droppedPast || droppedPresent || droppedFuture) {
+            document
+                .getElementById("shuffleBtn")
+                .classList.add("shake-horizontal");
+        } else {
+            console.log(cardsArray);
+            this.className = "";
+            shuffleArray(cards);
+            createCards();
+            theCards.map((e, i) => {
+                e.style.transition = "right ease-in-out 100ms";
+                e.style.right = 0;
+            });
+            setTimeout(() => {
+                theCards.map((e, i) => {
+                    e.style.right = i * 0.97 + "%";
+                });
+            }, 200);
+        }
     });
 }

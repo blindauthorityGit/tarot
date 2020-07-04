@@ -8,6 +8,19 @@
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
             rel="stylesheet"
         />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Tangerine:wght@700&display=swap"
+            rel="stylesheet"
+        />
+
         <script src="./js/app.js" defer></script>
         <title>Document</title>
     </head>
@@ -23,7 +36,8 @@
             </div>
         </div> -->
 
-        <div class="mobileTest" id="box"></div>
+        <!-- <div class="mobileTest" id="box"></div> -->
+        <!-- <div class="logo">Tarot Kartenlegung</div> -->
 
         <div class="wrapper">
             <div class="cardwrapper" id="cardWrapper">
@@ -886,7 +900,13 @@
                     </div>
                 </div>
             </div>
+            <!-- <div class="rahmen"></div> -->
             <button id="shuffleBtn">Shuffle me!</button>
+            <!-- <div class="topBorder">
+                <div class="third"></div>
+                <div class="third"></div>
+                <div class="third"></div>
+            </div> -->
             <div class="dropWrapper">
                 <div class="zoneWrapper">
                     <div class="txtAussen">Vergangenheit</div>
@@ -898,8 +918,8 @@
                         ondragover="onDragOver(event)"
                     >
                         <span class="txtInnen" id="vergangenheit"
-                            >Vergangenheit</span
-                        >
+                            >so war es bisher - <br />das hast Du mitgebracht
+                        </span>
                     </div>
                     <div class="words">
                         <h2 class="thema"></h2>
@@ -917,7 +937,10 @@
                         ondrop="onDropPresent(event);"
                         ondragover="onDragOver(event)"
                     >
-                        <span class="txtInnen" id="gegenwart">Gegenwart</span>
+                        <span class="txtInnen" id="gegenwart"
+                            >wo ist es gerade – <br />das ist der momentane
+                            Istzustand
+                        </span>
                     </div>
                     <div class="words">
                         <h2 class="thema2"></h2>
@@ -935,7 +958,9 @@
                         ondrop="onDropFuture(event);"
                         ondragover="onDragOver(event)"
                     >
-                        <span class="txtInnen" id="zukunft">Zukunft</span>
+                        <span class="txtInnen" id="zukunft"
+                            >so wird es kommen, wenn Du nichts bewußt änderst
+                        </span>
                     </div>
                     <div class="words">
                         <h2 class="thema3"></h2>
