@@ -629,6 +629,10 @@ h2 {
     // }
 }
 
+#shuffleBtn {
+    display: none;
+}
+
 @media (max-width: 1024px) {
     .cardwrapper {
         // background-image: none;
@@ -642,6 +646,12 @@ h2 {
 }
 
 @media (max-width: 420px) {
+    #shuffleBtn {
+        display: block;
+    }
+    .cardwrapper {
+        padding: 1rem 0;
+    }
     .dropWrapper {
         max-width: 420px;
         overflow-x: scroll;
@@ -649,7 +659,7 @@ h2 {
         // white-space: nowrap;
     }
     .txtAussen {
-        font-size: 2rem;
+        font-size: 1.5rem;
         margin-top: 2rem;
     }
     .nextBtn {
@@ -671,7 +681,9 @@ h2 {
     .words {
         padding: 0 3rem 3rem 3rem;
 
-        .thema {
+        .thema,
+        .thema2,
+        .thema3 {
             text-align: center;
         }
     }

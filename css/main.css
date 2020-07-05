@@ -663,6 +663,10 @@ h2 {
   display: none;
 }
 
+#shuffleBtn {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .dropWrapper {
     max-width: 768px;
@@ -670,12 +674,18 @@ h2 {
 }
 
 @media (max-width: 420px) {
+  #shuffleBtn {
+    display: block;
+  }
+  .cardwrapper {
+    padding: 1rem 0;
+  }
   .dropWrapper {
     max-width: 420px;
     overflow-x: scroll;
   }
   .txtAussen {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-top: 2rem;
   }
   .nextBtn {
@@ -696,7 +706,9 @@ h2 {
   .words {
     padding: 0 3rem 3rem 3rem;
   }
-  .words .thema {
+  .words .thema,
+  .words .thema2,
+  .words .thema3 {
     text-align: center;
   }
 }

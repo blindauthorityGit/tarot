@@ -796,7 +796,8 @@ const cards = [
         thema: "sich treiben lassen um das Ziel zu erreichen – Feinfühligkeit",
         text:
             "Diese Karte steht für eine junge Frau, oder den jugendlichen weiblichen Aspekt, der zeigt Dir, dass das Ziel bereits in Dir ruht. Es geht zum einen um das „nichts tuen“ und sich davon tragen zu lassen. Ebenso aber, sich einfach tragen lassen zu den Themen der Angst und den versteckten Gefühlen, und irgendwie wissend, dass es dort die wahre Freiheit gilt zu entdecken. Hier kommt ein Gefühl auf, dass Du es weißt, dass alles im Fluss ist, dem Du Dich hingeben darfst und er wird Dich zu Deiner Quelle führen. Alles Alte, was Du bisher für die Realität gehalten hast, wird sich lichten und geht-zu-grunde. Du kannst Dich als Beobachter selbst beobachten und wirst Dich in andern gespiegelt sehen. Hier wird eine Sehnsucht Dich treiben, um endlich die Liebe zu finden, die in den Sternen liegt, es ist fast wie die spirituelle Liebe, die Dich zum Ganzen macht. Auch wird hier der Startpunkt sein sich einer Liebe wirklich zu öffnen, es kann sich hier genauso um Partnerschaften, wie auch Tätigkeiten handeln. Mit dieser Karte findest Du die Kraft und Zuversicht, Dich uneingeschränkt nach Außen zu wenden und zu zeigen, wen oder was Du verehrst. Hier sind Idole in Deinem Verstand und Gefühl zu finden. Nun nutze die Gunst der Stunde und erfülle Deine Träume, während Du Inspirationen von außen integrieren kannst und Dich trotzdem der realen Welt stellen wirst. ",
-        kopf: "",
+        kopf:
+            "Diese Karte will Dich daran erinnern nicht zu überempfindlich zu reagieren. Aber auch, dass Du nicht in eine Träumerei verfällst und Dich darin so sehr verlierst. Derzeit ist nicht die Zeit für den Rückzug oder Dinge einfach selbstständig den Lauf zu lassen, sei aktiv. Achte auch darauf, nicht zu sehr zu prahlen oder nach Geltung im Außen zu suchen.",
         background: "../img/tochter_kelche.jpg",
         id: "tochter_kelche",
         index: 72,
@@ -875,20 +876,6 @@ function shuffleArray(array) {
     }
 }
 
-// for (let i = 0; i < cardsCopy.length; i++) {
-//     for (let j = 0; j < cardsCopy[i].text.split(".").length; j++) {
-//         console.log(cardsCopy[i].text.split(".")[j]);
-//         cardsCopy[i].text.split(".")[j] =
-//             "<p>" + cardsCopy[i].text.split(".")[j] + "</p>";
-//     }
-// }
-
-// for (let i = 0; i < cardsCopy.length; i++) {
-//     console.log(cardsCopy[i].text);
-// }
-
-// console.log(cardsCopy[0].text);
-
 shuffleArray(cards);
 
 let dropzoneWrap = document.querySelector("#dropzone");
@@ -912,50 +899,12 @@ function createCards() {
 
 createCards();
 
-shuffleBtn.addEventListener("click", function () {
-    if (droppedPast || droppedPresent || droppedFuture) {
-        document.getElementById("shuffleBtn").classList.add("shake-horizontal");
-    } else {
-        console.log(cardsArray);
-        cardsArray.map((e, i) => {
-            e.style.transition = "margin-left ease-in-out 100ms";
-            e.style.marginLeft = 0;
-        });
-        setTimeout(() => {
-            cardsArray.map((e, i) => {
-                if (i != 0) {
-                    e.style.marginLeft = "-10.5rem";
-                }
-            });
-        }, 200);
-        this.className = "";
-        shuffleArray(cards);
-        createCards();
-    }
-});
-
 function onDragStart(event) {
     event.dataTransfer.setData("text/plain", event.target.id);
-    // let img = new Image();
-    // img.src = "./img/bg_fh.png";
-    // event.dataTransfer.setDragImage(img, 100, 100);
-    // var dragIcon = document.createElement("img");
-    // dragIcon.src =
-    //     "https://www.googlewatchblog.de/wp-content/uploads/rip-googl.jpg";
-    // dragIcon.width = 100;
-    // event.dataTransfer.setDragImage(dragIcon, -10, -10);
-
-    // event.currentTarget.classList.add("flip-out-hor-top");
-    // event.currentTarget.style.opacity = 0.5;
 }
 
 function onDragOver(event) {
     event.preventDefault();
-    if (event.target.classList[0] == "dropzone") {
-        // event.target.style.background = "red";
-    } else {
-        // document.getElementById("dropzone3").style.background = "white";
-    }
 }
 
 let br = document.createElement("br");
@@ -983,16 +932,13 @@ function getPosition(element) {
         yPosition += element.offsetTop - element.scrollTop + element.clientTop;
         element = element.offsetParent;
     }
-    console.log({ x: xPosition, y: yPosition });
     return { x: xPosition, y: yPosition };
 }
 
 let flipped = false;
-console.log(txtAussen[0]);
 
 function flipCard(card) {
     let rndm = Math.floor(Math.random() * 100);
-    console.log(rndm);
     if (rndm < 10) {
         card.style.transform = "rotate(180deg)";
         flipped = true;
@@ -1011,12 +957,11 @@ function onDrop(event) {
     let id = event.dataTransfer.getData("text");
     let draggableElement = document.getElementById(id);
     const dropzone = event.target;
-    console.log(draggableElement.dataset.index);
 
     if (!droppedPast) {
-        if (btnGrey) {
-            shuffleBtn.style.opacity = 0.5;
-        }
+        // if (btnGrey) {
+        //     shuffleBtn.style.opacity = 0.5;
+        // }
         document.getElementById("vergangenheit").style.display = "none";
         dropzone.appendChild(draggableElement);
         draggableElement.classList.remove("shadows");
@@ -1069,18 +1014,16 @@ function onDropPresent(event) {
     let id = event.dataTransfer.getData("text");
     let draggableElement = document.getElementById(id);
     const dropzone = event.target;
-    console.log(thema);
 
     if (!droppedPresent) {
-        if (btnGrey) {
-            shuffleBtn.style.opacity = 0.5;
-        }
+        // if (btnGrey) {
+        //     shuffleBtn.style.opacity = 0.5;
+        // }
         document.getElementById("gegenwart").style.display = "none";
         dropzone.appendChild(draggableElement);
         draggableElement.classList.remove("shadows");
 
         flipCard(draggableElement);
-        console.log(draggableElement.childNodes[1]);
         setTimeout(() => {
             draggableElement.childNodes[1].style.transform = "rotateY(180deg)";
             thema2.innerHTML = cardsCopy[draggableElement.dataset.index].name;
@@ -1122,18 +1065,16 @@ function onDropFuture(event) {
     let id = event.dataTransfer.getData("text");
     let draggableElement = document.getElementById(id);
     const dropzone = event.target;
-    console.log(thema);
 
     if (!droppedFuture) {
-        if (btnGrey) {
-            shuffleBtn.style.opacity = 0.5;
-        }
+        // if (btnGrey) {
+        //     shuffleBtn.style.opacity = 0.5;
+        // }
         document.getElementById("zukunft").style.display = "none";
         dropzone.appendChild(draggableElement);
         draggableElement.classList.remove("shadows");
 
         flipCard(draggableElement);
-        console.log(draggableElement.childNodes[1]);
         setTimeout(() => {
             draggableElement.childNodes[1].style.transform = "rotateY(180deg)";
             thema3.innerHTML = cardsCopy[draggableElement.dataset.index].name;
@@ -1183,6 +1124,13 @@ let yOne = dropzoneOne.getBoundingClientRect().y;
 let lastMove = null;
 let cardX;
 let cardY;
+let isMobile = false;
+let cardOne = false;
+let cardTwo = false;
+let cardThree = false;
+if (window.matchMedia("(max-width: 420px)") && window.outerWidth < 421) {
+    isMobile = true;
+}
 
 console.log(localStorage);
 console.log(localStorage.card);
@@ -1192,9 +1140,12 @@ if (
     )
 ) {
     document.getElementById("cardWrapper").style.height = "15rem";
+    if (isMobile) {
+        document.getElementById("cardWrapper").style.height = "15rem";
+    }
     let nextBtn = Array.from(document.getElementsByClassName("nextBtn"));
 
-    if (window.matchMedia("(max-width: 420px)") && window.outerWidth < 421) {
+    if (isMobile) {
         let zWrapper = Array.from(
             document.getElementsByClassName("zoneWrapper")
         );
@@ -1213,11 +1164,12 @@ if (
             if (window.matchMedia("(max-width: 420px)")) {
                 cardX = getPosition(e).x;
                 cardY = getPosition(e).y;
-                console.log(cardX, cardY);
             } else {
-                cardX = getPosition(e).x + 172;
-                cardY = getPosition(e).y - 8;
-                console.log(cardX, cardY);
+                cardX = getPosition(e).x;
+                cardY = getPosition(e).y;
+            }
+            if (e.style.marginLeft == 0) {
+                e.style.marginLeft = "-10.5rem";
             }
         });
         e.addEventListener("touchmove", function (event) {
@@ -1238,8 +1190,6 @@ if (
             let dYThree = getPosition(dropzoneThree).y;
             let dXPos = getPosition(dropzoneOne).x;
             let dYPos = getPosition(dropzoneOne).y;
-            // console.log(dropzoneOne.getBoundingClientRect());
-            console.log(dXPos);
             if (
                 evX > dXPos &&
                 evX < dXPos + 240 &&
@@ -1248,9 +1198,6 @@ if (
                 !droppedPast
             ) {
                 if (!droppedPast) {
-                    if (btnGrey) {
-                        shuffleBtn.style.opacity = 0.5;
-                    }
                     let fristCard;
                     firstCard = e;
                     // dropzoneOne.style.background = "red";
@@ -1259,6 +1206,7 @@ if (
                     e.classList.remove("shadows");
                     flipCard(e);
                     getPosition(e);
+
                     setTimeout(() => {
                         e.childNodes[1].style.transform = "rotateY(180deg)";
                         thema.innerHTML = cardsCopy[e.dataset.index].name;
@@ -1270,6 +1218,15 @@ if (
                                 .classList.add("activeHeight");
                             nextBtn[0].classList.add("fade-in");
                         }, 400);
+
+                        if (isMobile) {
+                            setTimeout(() => {
+                                window.scrollTo({
+                                    top: 300,
+                                    behavior: "smooth",
+                                });
+                            }, 600);
+                        }
 
                         head[0].innerHTML = cardsCopy[e.dataset.index].text
                             .split(".")
@@ -1302,11 +1259,7 @@ if (
                 !droppedPresent
             ) {
                 if (!droppedPresent) {
-                    if (btnGrey) {
-                        shuffleBtn.style.opacity = 0.5;
-                    }
                     secondCard = e;
-                    console.log(secondCard);
                     // dropzoneTwo.style.background = "red";
                     e.style.left = dXTwo + 192 + "px";
                     e.style.top = dYTwo + 20 + "px";
@@ -1324,6 +1277,15 @@ if (
                                 .querySelectorAll(".third")[1]
                                 .classList.add("activeHeight2");
                         }, 400);
+
+                        if (isMobile) {
+                            setTimeout(() => {
+                                window.scrollTo({
+                                    top: 300,
+                                    behavior: "smooth",
+                                });
+                            }, 600);
+                        }
 
                         head[1].innerHTML = cardsCopy[e.dataset.index].text
                             .split(".")
@@ -1358,9 +1320,6 @@ if (
                 !droppedFuture
             ) {
                 if (!droppedFuture) {
-                    if (btnGrey) {
-                        shuffleBtn.style.opacity = 0.5;
-                    }
                     // dropzoneTwo.style.background = "red";
                     e.style.left = dXThree + 192 + "px";
                     e.style.top = dYThree + 20 + "px";
@@ -1377,6 +1336,15 @@ if (
                                 .querySelectorAll(".third")[2]
                                 .classList.add("activeHeight3");
                         }, 400);
+
+                        if (isMobile) {
+                            setTimeout(() => {
+                                window.scrollTo({
+                                    top: 300,
+                                    behavior: "smooth",
+                                });
+                            }, 600);
+                        }
 
                         head[2].innerHTML = cardsCopy[e.dataset.index].text
                             .split(".")
@@ -1403,18 +1371,20 @@ if (
             } else {
                 e.style.left = cardX + "px";
                 e.style.top = cardY + "px";
+                e.style.marginLeft = 0;
             }
         });
     });
 
-    console.log(bodyRect, dropzoneOne.getBoundingClientRect());
-
     // NEXT BTNS
+
     nextBtn[0].addEventListener("click", function () {
         window.scrollTo({
             top: 0,
             behavior: "smooth",
         });
+        document.getElementById("cardWrapper").style.backgroundImage =
+            "url(../img/bg_top2.jpg)";
         zoneWrapper[0].classList.add("fade-out");
         firstCard.classList.add("fade-out");
         setTimeout(() => {
@@ -1430,6 +1400,8 @@ if (
             top: 0,
             behavior: "smooth",
         });
+        document.getElementById("cardWrapper").style.backgroundImage =
+            "url(../img/bg_top3.jpg)";
         zoneWrapper[1].classList.add("fade-out");
         secondCard.classList.add("fade-out");
         setTimeout(() => {
@@ -1449,46 +1421,32 @@ if (
             e.style.right = 2 + i * 0.95 + "%";
         });
         document.querySelector(".wrapper").style.width = "auto";
-        console.log("tablet", document.querySelector(".wrapper"));
     } else {
         theCards.map((e, i) => {
             e.style.right = 5 + i * 0.97 + "%";
         });
-        console.log("desktop");
     }
-    console.log(window.matchMedia);
     if (window.matchMedia("(max-width: 420px)") && window.outerWidth < 421) {
         cardwrapper.classList.add("scrolling-wrapper");
         theCards.map((e, i) => {
-            e.style.right = 10 + i * 0.25 + "%";
+            e.style.right = 25 + i * 0 + "%";
             e.classList.remove("shadows");
-            // e.style.position = "relative";
             e.style.display = "inline-block";
         });
     }
-    // theCards.map((e, i) => {
-    //     e.style.right = 5 + i * 0.97 + "%";
-    // });
 
     shuffleBtn.addEventListener("click", function () {
-        if (droppedPast || droppedPresent || droppedFuture) {
-            document
-                .getElementById("shuffleBtn")
-                .classList.add("shake-horizontal");
-        } else {
-            console.log(cardsArray);
-            this.className = "";
-            shuffleArray(cards);
-            createCards();
+        this.className = "";
+        shuffleArray(cards);
+        createCards();
+        theCards.map((e, i) => {
+            e.style.transition = "right ease-in-out 100ms";
+            e.style.right = 0;
+        });
+        setTimeout(() => {
             theCards.map((e, i) => {
-                e.style.transition = "right ease-in-out 100ms";
-                e.style.right = 0;
+                e.style.right = 25 + i * 0 + "%";
             });
-            setTimeout(() => {
-                theCards.map((e, i) => {
-                    e.style.right = i * 0.97 + "%";
-                });
-            }, 200);
-        }
+        }, 200);
     });
 }
