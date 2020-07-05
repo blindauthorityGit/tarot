@@ -3,7 +3,7 @@ const cards = [
         name: "0 - Der Narr",
         thema: "Aufbruch",
         text:
-            "Hier darfst Du auch einmal verrückt (ver-rücken!) spielen. Hier könnte das Chaos beginnen und eine neue Reise, mit leichtem Gepäcke, bevorstehen, vorausgesetzt Du bist bereit Dich darauf einzulassen. Es ist hier der Impuls am Kommen. Ein Teil kann unbeschwert sein, aber auch Unabhängigkeit wollen, es deutet auch auf einen Neubeginn hin.  Hier kannst Du neue Erfahrungen sammeln. Es geht aber auch darum einmal den Weg zu Deinem wahren ICH zu riskieren. Die Zahl Null steht hier für die Endlosigkeit und den ewigen Anfang.",
+            "Hier darfst Du auch einmal verrückt (ver-rücken!) spielen. <p>Hier könnte das Chaos beginnen und eine neue Reise, mit leichtem Gepäcke, bevorstehen, vorausgesetzt Du bist bereit Dich darauf einzulassen.</p><p> Es ist hier der Impuls am Kommen. Ein Teil kann unbeschwert sein, aber auch Unabhängigkeit wollen, es deutet auch auf einen Neubeginn hin.</p><p>  Hier kannst Du neue Erfahrungen sammeln. Es geht aber auch darum einmal den Weg zu Deinem wahren ICH zu riskieren. Die Zahl Null steht hier für die Endlosigkeit und den ewigen Anfang.</p>",
         kopf:
             "Achte auf Inkonsequenz, Mutlosigkeit, aber auch auf Bestechlichkeit.",
         background: "../img/0_narr.jpg",
@@ -875,7 +875,19 @@ function shuffleArray(array) {
     }
 }
 
-// cards.map((e) => e.text.split(".").map((e) => (e = e + "mööp möööp" + "<br>")));
+// for (let i = 0; i < cardsCopy.length; i++) {
+//     for (let j = 0; j < cardsCopy[i].text.split(".").length; j++) {
+//         console.log(cardsCopy[i].text.split(".")[j]);
+//         cardsCopy[i].text.split(".")[j] =
+//             "<p>" + cardsCopy[i].text.split(".")[j] + "</p>";
+//     }
+// }
+
+// for (let i = 0; i < cardsCopy.length; i++) {
+//     console.log(cardsCopy[i].text);
+// }
+
+// console.log(cardsCopy[0].text);
 
 shuffleArray(cards);
 
@@ -942,7 +954,7 @@ function onDragOver(event) {
     if (event.target.classList[0] == "dropzone") {
         // event.target.style.background = "red";
     } else {
-        document.getElementById("dropzone3").style.background = "white";
+        // document.getElementById("dropzone3").style.background = "white";
     }
 }
 
@@ -1161,13 +1173,6 @@ function onDropFuture(event) {
 
 let mobileBox = Array.from(document.getElementsByClassName("mobileTest"));
 let box = document.getElementById("box");
-
-// box.addEventListener("touchmove", function (e) {
-//     let touchLocation = e.targetTouches[0];
-//     box.style.left = touchLocation.pageX + "px";
-//     box.style.top = touchLocation.pageY + "px";
-// });
-
 let theCards = Array.from(document.getElementsByClassName("cards"));
 let dropzoneOne = document.getElementById("dropzone");
 let dropzoneTwo = document.getElementById("dropzone2");
@@ -1179,14 +1184,6 @@ let lastMove = null;
 let cardX;
 let cardY;
 
-// function touchmove(event){
-//     event.preventDefault();
-//     lastMove = event;
-//     let touchLocation = event.targetTouches[0];
-//     e.style.left = touchLocation.pageX + 102 + "px";
-//     e.style.top = touchLocation.pageY - 150 + "px";
-// }
-
 console.log(localStorage);
 console.log(localStorage.card);
 if (
@@ -1195,14 +1192,33 @@ if (
     )
 ) {
     document.getElementById("cardWrapper").style.height = "15rem";
+    let nextBtn = Array.from(document.getElementsByClassName("nextBtn"));
+
+    if (window.matchMedia("(max-width: 420px)") && window.outerWidth < 421) {
+        let zWrapper = Array.from(
+            document.getElementsByClassName("zoneWrapper")
+        );
+        zWrapper.map((e) => {
+            e.style.position = "absolute";
+            e.style.margin = 0;
+        });
+        zWrapper[1].style.display = "none";
+        zWrapper[2].style.display = "none";
+    }
 
     theCards.forEach((e) => {
         e.style.position = "absolute";
         let theCard = e;
         e.addEventListener("touchstart", function () {
-            cardX = e.getBoundingClientRect().x + 172;
-            cardY = e.getBoundingClientRect().y - 8;
-            console.log(cardX, cardY);
+            if (window.matchMedia("(max-width: 420px)")) {
+                cardX = getPosition(e).x;
+                cardY = getPosition(e).y;
+                console.log(cardX, cardY);
+            } else {
+                cardX = getPosition(e).x + 172;
+                cardY = getPosition(e).y - 8;
+                console.log(cardX, cardY);
+            }
         });
         e.addEventListener("touchmove", function (event) {
             event.preventDefault();
@@ -1216,29 +1232,33 @@ if (
             let evY = Math.floor(event.changedTouches[0].pageY);
             let dX = dropzoneOne.getBoundingClientRect().x;
             let dY = dropzoneOne.getBoundingClientRect().y;
-            let dXTwo = dropzoneTwo.getBoundingClientRect().x;
-            let dYTwo = dropzoneTwo.getBoundingClientRect().y;
-            let dXThree = dropzoneThree.getBoundingClientRect().x;
-            let dYThree = dropzoneThree.getBoundingClientRect().y;
+            let dXTwo = getPosition(dropzoneTwo).x;
+            let dYTwo = getPosition(dropzoneTwo).y;
+            let dXThree = getPosition(dropzoneThree).x;
+            let dYThree = getPosition(dropzoneThree).y;
+            let dXPos = getPosition(dropzoneOne).x;
+            let dYPos = getPosition(dropzoneOne).y;
             // console.log(dropzoneOne.getBoundingClientRect());
-            // console.log(evX, evY, dX);
+            console.log(dXPos);
             if (
-                evX > dX &&
-                evX < dX + 240 &&
-                evY > dY &&
-                evY < dY + 335 &&
+                evX > dXPos &&
+                evX < dXPos + 240 &&
+                evY > dYPos &&
+                evY < dYPos + 335 &&
                 !droppedPast
             ) {
                 if (!droppedPast) {
                     if (btnGrey) {
                         shuffleBtn.style.opacity = 0.5;
                     }
+                    let fristCard;
+                    firstCard = e;
                     // dropzoneOne.style.background = "red";
-                    e.style.left = dX + 192 + "px";
-                    e.style.top = dY + 20 + "px";
+                    e.style.left = dXPos + 192 + "px";
+                    e.style.top = dYPos + 20 + "px";
                     e.classList.remove("shadows");
                     flipCard(e);
-                    // e.removeEventListener("touchmove" );
+                    getPosition(e);
                     setTimeout(() => {
                         e.childNodes[1].style.transform = "rotateY(180deg)";
                         thema.innerHTML = cardsCopy[e.dataset.index].name;
@@ -1248,6 +1268,7 @@ if (
                             document
                                 .querySelectorAll(".third")[0]
                                 .classList.add("activeHeight");
+                            nextBtn[0].classList.add("fade-in");
                         }, 400);
 
                         head[0].innerHTML = cardsCopy[e.dataset.index].text
@@ -1256,7 +1277,8 @@ if (
 
                         txt.innerHTML = cardsCopy[e.dataset.index].text
                             .split(".")
-                            .slice(1);
+                            .slice(1)
+                            .join(".");
 
                         txtAussen[0].style.color = "rgb(64, 13, 94)";
 
@@ -1283,6 +1305,8 @@ if (
                     if (btnGrey) {
                         shuffleBtn.style.opacity = 0.5;
                     }
+                    secondCard = e;
+                    console.log(secondCard);
                     // dropzoneTwo.style.background = "red";
                     e.style.left = dXTwo + 192 + "px";
                     e.style.top = dYTwo + 20 + "px";
@@ -1307,7 +1331,8 @@ if (
 
                         txt2.innerHTML = cardsCopy[e.dataset.index].text
                             .split(".")
-                            .slice(1);
+                            .slice(1)
+                            .join(".");
 
                         txtAussen[1].style.color = "rgb(64, 13, 94)";
 
@@ -1359,7 +1384,8 @@ if (
 
                         txt3.innerHTML = cardsCopy[e.dataset.index].text
                             .split(".")
-                            .slice(1);
+                            .slice(1)
+                            .join(".");
                         txtAussen[2].style.color = "rgb(64, 13, 94)";
 
                         if (flipped) {
@@ -1383,11 +1409,66 @@ if (
 
     console.log(bodyRect, dropzoneOne.getBoundingClientRect());
 
+    // NEXT BTNS
+    nextBtn[0].addEventListener("click", function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+        zoneWrapper[0].classList.add("fade-out");
+        firstCard.classList.add("fade-out");
+        setTimeout(() => {
+            zoneWrapper[0].style.display = "none";
+            zoneWrapper[1].style.display = "";
+            zoneWrapper[1].classList.add("fade-in");
+            nextBtn[0].style.display = "none";
+        }, 400);
+    });
+
+    nextBtn[1].addEventListener("click", function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+        zoneWrapper[1].classList.add("fade-out");
+        secondCard.classList.add("fade-out");
+        setTimeout(() => {
+            zoneWrapper[1].style.display = "none";
+            zoneWrapper[2].style.display = "";
+            zoneWrapper[2].classList.add("fade-in");
+            nextBtn[1].style.display = "none";
+        }, 400);
+    });
+
     // ABSTAND KARTEN ZUEINANDER
 
-    theCards.map((e, i) => {
-        e.style.right = 5 + i * 0.97 + "%";
-    });
+    var mq = window.matchMedia("(max-width: 768px)");
+    var mqS = window.matchMedia("(min-width: 421px)");
+    if (mq.matches && mqS.matches) {
+        theCards.map((e, i) => {
+            e.style.right = 2 + i * 0.95 + "%";
+        });
+        document.querySelector(".wrapper").style.width = "auto";
+        console.log("tablet", document.querySelector(".wrapper"));
+    } else {
+        theCards.map((e, i) => {
+            e.style.right = 5 + i * 0.97 + "%";
+        });
+        console.log("desktop");
+    }
+    console.log(window.matchMedia);
+    if (window.matchMedia("(max-width: 420px)") && window.outerWidth < 421) {
+        cardwrapper.classList.add("scrolling-wrapper");
+        theCards.map((e, i) => {
+            e.style.right = 10 + i * 0.25 + "%";
+            e.classList.remove("shadows");
+            // e.style.position = "relative";
+            e.style.display = "inline-block";
+        });
+    }
+    // theCards.map((e, i) => {
+    //     e.style.right = 5 + i * 0.97 + "%";
+    // });
 
     shuffleBtn.addEventListener("click", function () {
         if (droppedPast || droppedPresent || droppedFuture) {

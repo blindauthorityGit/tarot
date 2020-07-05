@@ -185,6 +185,7 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  background-image: url(../img/SVG/bgfh_2.svg);
 }
 
 .dropzone div {
@@ -213,7 +214,6 @@ body {
   justify-content: center;
   color: #cab8cc;
   font-weight: 500;
-  font-size: 1rem;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -221,7 +221,6 @@ body {
   margin-top: 1rem;
   -webkit-transition: all ease-in-out 200ms;
   transition: all ease-in-out 200ms;
-  letter-spacing: 1.25px;
 }
 
 .txtAussen::before {
@@ -231,6 +230,10 @@ body {
   height: 1px;
   background: #cab9cc;
   margin: 0 -3rem;
+}
+
+.txtAussen:nth-child(1)::before {
+  display: none;
 }
 
 .head {
@@ -244,6 +247,7 @@ body {
   font-size: 1rem;
   z-index: -4;
   text-align: center;
+  font-family: "DM Serif Text", serif;
   padding: 1rem;
 }
 
@@ -294,6 +298,7 @@ body {
   background: #220d2c;
   background-image: url("../img/bg_top.jpg");
   background-size: cover;
+  position: relative;
 }
 
 .wrapper {
@@ -319,11 +324,12 @@ body {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  margin-bottom: 3rem;
 }
 
 .zoneWrapper {
   margin: 1rem;
-  width: 33%;
+  width: calc(33% - 2rem);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -363,11 +369,6 @@ h2 {
 .text2,
 .text3 {
   font-size: 0.85rem;
-}
-
-.middle {
-  margin: 0;
-  padding: 1rem;
 }
 
 #shuffleBtn {
@@ -415,6 +416,29 @@ h2 {
 .shake-horizontal {
   -webkit-animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
   animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+}
+
+.fade-out {
+  -webkit-animation: fade-out 1s ease-out both;
+  animation: fade-out 1s ease-out both;
+}
+
+@-webkit-keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @-webkit-keyframes shake-horizontal {
@@ -635,9 +659,45 @@ h2 {
   }
 }
 
-@media (max-width: 1024px) {
-  .cardwrapper {
-    background-image: none;
+.nextBtn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .dropWrapper {
+    max-width: 768px;
+  }
+}
+
+@media (max-width: 420px) {
+  .dropWrapper {
+    max-width: 420px;
+    overflow-x: scroll;
+  }
+  .txtAussen {
+    font-size: 2rem;
+    margin-top: 2rem;
+  }
+  .nextBtn {
+    display: block;
+    opacity: 1;
+    padding: 1rem 2rem;
+    border: solid medium #9c27b0;
+    border-radius: 75px;
+    color: #9c27b0;
+    font-weight: 600;
+    margin-bottom: 3rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .zoneWrapper {
+    width: 100%;
+  }
+  .words {
+    padding: 0 3rem 3rem 3rem;
+  }
+  .words .thema {
+    text-align: center;
   }
 }
 /*# sourceMappingURL=main.css.map */
